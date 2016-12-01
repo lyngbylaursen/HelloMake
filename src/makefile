@@ -1,26 +1,14 @@
-IDIR =../include
 CC=gcc
-CFLAGS=-I$(IDIR)
+CFLAGS=-c -Wall
+LDFLAGS=
+SOURCES=hellomake.c hellofunc.c
+OBJECTS=$(SOURCES:.c=.o)
+EXECUTABLE=hellomake
 
-ODIR=obj
-LDIR =../lib
+all: $(SOURCES) $(EXECUTABLE)
+    
+$(EXECUTABLE): $(OBJECTS) 
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 
-LIBS=-lm
-
-_DEPS = hellofunc.h
-DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
-
-_OBJ = hellomake.o hellofunc.o 
-OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
-
-
-$(ODIR)/%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
-
-hellomake: $(OBJ)
-	gcc -o $@ $^ $(CFLAGS) $(LIBS)
-
-.PHONY: clean
-
-clean:
-	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ 
+.cpp.o:
+	$(CC) $(CFLAGS) $< -o $@
